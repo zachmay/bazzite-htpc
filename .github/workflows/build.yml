@@ -47,11 +47,3 @@ jobs:
           tags: ${{ steps.build.outputs.tags }}
           registry: ${{ env.IMAGE_REGISTRY }}
 
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v3
-
-      - name: Sign image
-        run: |
-          cosign sign -y ${{ env.IMAGE_REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
-        env:
-          COSIGN_EXPERIMENTAL: true
