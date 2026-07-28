@@ -3,6 +3,10 @@ ARG TAG="stable"
 
 FROM ${BASE_IMAGE}:${TAG}
 
+# Install system packages
+RUN rpm-ostree install just \
+    && ostree container commit
+
 # Copy system config files (mount units, etc.)
 COPY config/files/ /
 
