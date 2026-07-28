@@ -1,0 +1,10 @@
+[Unit]
+Description=NAS Media Share Automount (yesod)
+After=network-online.target
+
+[Automount]
+Where=/var/mnt/nas
+TimeoutIdleSec=0
+
+[Install]
+WantedBy=multi-user.target

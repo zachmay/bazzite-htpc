@@ -1,0 +1,2 @@
+# Never commit credentials
+config/files/etc/samba/nas-credentials

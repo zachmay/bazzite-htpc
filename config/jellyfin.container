@@ -1,0 +1,19 @@
+[Unit]
+Description=Jellyfin Media Server
+After=network-online.target local-fs.target var-mnt-nas.mount
+
+[Container]
+Image=docker.io/jellyfin/jellyfin:latest
+PublishPort=8096:8096
+Environment=TZ=America/Chicago
+Volume=%h/.config/jellyfin/config:/config
+Volume=%h/.config/jellyfin/cache:/cache
+Volume=/var/mnt/nas:/media:ro
+AddDevice=/dev/dri
+AutoUpdate=registry
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
