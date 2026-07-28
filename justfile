@@ -1,5 +1,7 @@
 set shell := ["bash", "-c"]
 
+assets := "/usr/share/bazzite-htpc"
+
 # Full first-boot setup
 setup: setup-nas install-flatpaks setup-jellyfin
 
@@ -19,13 +21,13 @@ setup-nas:
 
 # Install user Flatpaks
 install-flatpaks:
-    xargs flatpak install --noninteractive flathub < flatpaks.txt
+    xargs flatpak install --noninteractive flathub < {{assets}}/flatpaks.txt
 
 # Start Jellyfin Media Server container
 setup-jellyfin:
     mkdir -p ~/.config/jellyfin/{config,cache}
     mkdir -p ~/.config/containers/systemd
-    cp config/jellyfin.container ~/.config/containers/systemd/jellyfin.container
+    cp {{assets}}/jellyfin.container ~/.config/containers/systemd/jellyfin.container
     systemctl --user daemon-reload
     systemctl --user enable --now jellyfin
     echo "Jellyfin running at http://localhost:8096"
