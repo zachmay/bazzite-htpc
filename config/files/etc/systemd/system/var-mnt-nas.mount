@@ -4,7 +4,7 @@ After=network-online.target
 Requires=network-online.target
 
 [Mount]
-What=//yesod/sharename
+What=//yesod/Media
 Where=/var/mnt/nas
 Type=cifs
 Options=credentials=/etc/samba/nas-credentials,uid=1000,gid=1000,iocharset=utf8,x-systemd.idle-timeout=0
