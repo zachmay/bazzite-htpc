@@ -1,1 +1,5 @@
 com.github.iwalton3.jellyfin-media-player
+rocks.shy.VacuumTube
+io.freetuber.FreeTube
+net.retrodeck.retrodeck
+es.deb.EmulationStation-DE

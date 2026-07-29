@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=ES-DE
+Exec=gamescope -e -f --hdr-enabled --adaptive-sync -- es-de
+Type=Application
+DesktopNames=ES-DE
