@@ -12,8 +12,9 @@ COPY config/jellyfin.container /usr/share/bazzite-htpc/jellyfin.container
 COPY config/navidrome.container /usr/share/bazzite-htpc/navidrome.container
 COPY flatpaks.txt /usr/share/bazzite-htpc/flatpaks.txt
 
-# Enable NAS automount
+# Enable NAS automount and configure Flathub system remote
 RUN systemctl enable var-mnt-nas.automount \
+    && flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo \
     && ostree container commit
 
 RUN ostree container commit
