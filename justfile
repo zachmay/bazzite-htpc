@@ -34,7 +34,7 @@ setup-nas:
 
 # Install user Flatpaks — skips already-installed apps
 install-flatpaks:
-    xargs flatpak install --noninteractive --or-update flathub < {{assets}}/flatpaks.txt
+    xargs flatpak install --system --noninteractive --or-update flathub < {{assets}}/flatpaks.txt
 
 # Deploy Jellyfin container unit — restarts service only if unit file changed
 setup-jellyfin:
