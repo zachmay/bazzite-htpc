@@ -2,4 +2,3 @@ com.github.iwalton3.jellyfin-media-player
 rocks.shy.VacuumTube
 io.freetubeapp.FreeTube
 net.retrodeck.retrodeck
-es.deb.EmulationStation-DE
