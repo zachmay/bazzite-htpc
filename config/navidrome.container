@@ -19,3 +19,7 @@ RestartSec=10
 # Triggers the autofs mount before podman statfs's the path, which otherwise
 # fails with 'no such device'.
 ExecStartPre=/usr/bin/test -d /var/mnt/nas/Music
+
+# See jellyfin.container — required for the service to start at boot.
+[Install]
+WantedBy=default.target

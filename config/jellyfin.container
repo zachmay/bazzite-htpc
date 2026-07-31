@@ -24,3 +24,8 @@ RestartSec=10
 # User units can't order against the system automount, so force it to trigger
 # before podman resolves the bind-mount path.
 ExecStartPre=/usr/bin/test -d /var/mnt/nas/Movies
+
+# Without this the generated service is never pulled into default.target and
+# does not start at boot — linger alone only starts the user manager.
+[Install]
+WantedBy=default.target
