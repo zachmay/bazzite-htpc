@@ -7,7 +7,10 @@ Requires=network-online.target
 What=//192.168.7.243/Media
 Where=/var/mnt/nas
 Type=cifs
-Options=credentials=/etc/samba/nas-credentials,uid=1000,gid=1000,iocharset=utf8,x-systemd.idle-timeout=0
+# context= is what lets rootless containers read the share. CIFS carries no
+# xattrs, so :Z/:z on the podman side cannot work; the label has to come from
+# the mount. Changing it requires a full umount — remount alone won't apply it.
+Options=credentials=/etc/samba/nas-credentials,uid=1000,gid=1000,iocharset=utf8,x-systemd.idle-timeout=0,context=system_u:object_r:container_file_t:s0
 
 [Install]
 WantedBy=multi-user.target
