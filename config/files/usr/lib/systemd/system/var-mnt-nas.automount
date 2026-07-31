@@ -1,6 +1,14 @@
 [Unit]
 Description=NAS Media Share Automount (yesod)
-After=network-online.target
+# Deliberately NOT ordered After=network-online.target. systemd implicitly
+# orders every .automount Before=local-fs.target, and local-fs.target is
+# reached long before the network — so that ordering forms a cycle:
+#   automount -> network-online.target -> ... -> local-fs.target -> automount
+# systemd breaks cycles by DELETING jobs, silently and with no failed unit.
+# It took out both var-mnt-nas.automount (NAS never mounted) and
+# dbus-broker.service (NetworkManager never started -> no network at boot).
+# The autofs trigger needs no network; only the .mount does, and that unit is
+# Type=cifs so systemd already orders it Before=remote-fs.target on its own.
 
 [Automount]
 Where=/var/mnt/nas
