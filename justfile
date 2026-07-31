@@ -22,6 +22,8 @@ setup-nas:
         read -s -p "NAS password: " nas_pass
         echo
         sudo mkdir -p /etc/samba
+        nas_user="${nas_user//$'\r'/}"
+        nas_pass="${nas_pass//$'\r'/}"
         printf "username=%s\npassword=%s\n" "$nas_user" "$nas_pass" \
             | sudo tee /etc/samba/nas-credentials > /dev/null
         sudo chmod 600 /etc/samba/nas-credentials
