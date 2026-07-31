@@ -78,3 +78,15 @@ setup-navidrome:
 # Install Decky Loader plugin manager for Gaming Mode
 setup-decky:
     ujust setup-decky
+
+# Install Node.js via brew and Claude Code CLI
+setup-claude-code:
+    #!/usr/bin/env bash
+    if ! command -v brew &>/dev/null; then
+        echo "Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    fi
+    brew install node
+    npm install -g @anthropic-ai/claude-code
+    echo "Claude Code installed. Run: claude"
