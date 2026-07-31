@@ -75,10 +75,6 @@ setup-navidrome:
     fi
     echo "Navidrome running at http://localhost:4533"
 
-# Install Decky Loader plugin manager for Gaming Mode
-setup-decky:
-    ujust setup-decky
-
 # Install Node.js via brew and Claude Code CLI
 setup-claude-code:
     #!/usr/bin/env bash
