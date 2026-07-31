@@ -31,7 +31,27 @@ setup-nas:
     else
         echo "NAS credentials already exist, skipping."
     fi
+    # Migrate off the legacy /etc copies of the mount units. These now ship in
+    # /usr/lib/systemd/system so they are replaced wholesale on every image
+    # upgrade. /etc takes precedence over /usr/lib, so a leftover copy would
+    # silently shadow the image-managed unit — with no error to tell you.
+    migrated=0
+    for unit in var-mnt-nas.mount var-mnt-nas.automount; do
+        if [ -f "/usr/lib/systemd/system/$unit" ] && [ -f "/etc/systemd/system/$unit" ]; then
+            sudo rm -f "/etc/systemd/system/$unit"
+            echo "Removed legacy /etc/systemd/system/$unit (now image-managed)."
+            migrated=1
+        fi
+    done
     sudo systemctl daemon-reload
+    if [ "$migrated" -eq 1 ]; then
+        # The old enable symlink points into /etc and now dangles; reenable
+        # repoints it at /usr/lib. A changed context= mount option also needs a
+        # full umount — remount alone will not apply it.
+        sudo systemctl stop var-mnt-nas.automount || true
+        sudo umount /var/mnt/nas 2>/dev/null || true
+        sudo systemctl reenable var-mnt-nas.automount
+    fi
     sudo systemctl enable --now var-mnt-nas.automount
 
 # Install user Flatpaks — skips already-installed apps
