@@ -1,0 +1,23 @@
+[Unit]
+Description=Jellyfin Media Server
+RequiresMountsFor=/var/mnt/nas
+
+[Container]
+Image=docker.io/jellyfin/jellyfin:latest
+PublishPort=8096:8096
+Environment=TZ=America/New_York
+User=1000:1000
+Volume=/var/lib/jellyfin/config:/config:Z
+Volume=/var/lib/jellyfin/cache:/cache:Z
+Volume=/var/mnt/nas:/media:ro
+AddDevice=/dev/dri/renderD128
+NoNewPrivileges=true
+DropCapability=ALL
+AutoUpdate=registry
+
+[Service]
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

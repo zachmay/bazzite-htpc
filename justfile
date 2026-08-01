@@ -3,7 +3,7 @@ set shell := ["bash", "-c"]
 assets := "/usr/share/bazzite-htpc"
 
 # Full setup — idempotent, safe to rerun after image updates
-setup: check-not-root setup-nas install-flatpaks setup-jellyfin setup-navidrome setup-decky
+setup: check-not-root setup-nas install-flatpaks setup-decky
 
 # Guard against running as root
 check-not-root:
@@ -37,43 +37,6 @@ setup-nas:
 # Install user Flatpaks — skips already-installed apps
 install-flatpaks:
     xargs flatpak install --system --noninteractive --or-update flathub < {{assets}}/flatpaks.txt
-
-# Deploy Jellyfin container unit — restarts service only if unit file changed
-setup-jellyfin:
-    #!/usr/bin/env bash
-    loginctl enable-linger "$USER"
-    mkdir -p ~/.config/jellyfin/{config,cache}
-    mkdir -p ~/.config/containers/systemd
-    src="{{assets}}/jellyfin.container"
-    dest="$HOME/.config/containers/systemd/jellyfin.container"
-    if ! cmp -s "$src" "$dest"; then
-        cp "$src" "$dest"
-        systemctl --user daemon-reload
-        systemctl --user restart jellyfin
-        echo "Jellyfin container unit updated and restarted."
-    else
-        echo "Jellyfin container unit unchanged, skipping restart."
-    fi
-    echo "Jellyfin running at http://localhost:8096"
-
-# Deploy Navidrome container unit — restarts service only if unit file changed
-# Music is read from /var/mnt/nas/Music — adjust path if your NAS layout differs
-setup-navidrome:
-    #!/usr/bin/env bash
-    loginctl enable-linger "$USER"
-    mkdir -p ~/.config/navidrome/data
-    mkdir -p ~/.config/containers/systemd
-    src="{{assets}}/navidrome.container"
-    dest="$HOME/.config/containers/systemd/navidrome.container"
-    if ! cmp -s "$src" "$dest"; then
-        cp "$src" "$dest"
-        systemctl --user daemon-reload
-        systemctl --user restart navidrome
-        echo "Navidrome container unit updated and restarted."
-    else
-        echo "Navidrome container unit unchanged, skipping restart."
-    fi
-    echo "Navidrome running at http://localhost:4533"
 
 # Install Node.js via brew and Claude Code CLI
 setup-claude-code:

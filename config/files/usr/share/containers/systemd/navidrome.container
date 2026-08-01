@@ -1,0 +1,23 @@
+[Unit]
+Description=Navidrome Music Server
+RequiresMountsFor=/var/mnt/nas
+
+[Container]
+Image=docker.io/deluan/navidrome:latest
+PublishPort=4533:4533
+Environment=TZ=America/New_York
+Environment=ND_MUSICFOLDER=/music
+Environment=ND_DATAFOLDER=/data
+User=1000:1000
+Volume=/var/lib/navidrome/data:/data:Z
+Volume=/var/mnt/nas/Music:/music:ro
+NoNewPrivileges=true
+DropCapability=ALL
+AutoUpdate=registry
+
+[Service]
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

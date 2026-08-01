@@ -1,4 +1,4 @@
-com.github.iwalton3.jellyfin-media-player
+org.jellyfin.JellyfinDesktop
 rocks.shy.VacuumTube
 io.freetubeapp.FreeTube
 net.retrodeck.retrodeck
